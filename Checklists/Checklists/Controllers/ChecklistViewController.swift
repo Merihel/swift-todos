@@ -27,7 +27,10 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItem", for: indexPath)
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItem", for: indexPath) as? ChecklistItemCell else {
+            return UITableViewCell()
+        }
 
         configureText(for: cell, withItem: items[indexPath.row])
         configureCheckmark(for: cell, withItem: items[indexPath.row])
@@ -46,18 +49,18 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
     }
     
-    func configureCheckmark(for cell: UITableViewCell, withItem item: ChecklistItem) {
+    func configureCheckmark(for cell: ChecklistItemCell, withItem item: ChecklistItem) {
         
         if (item.checked) {
-            cell.accessoryType = .checkmark
+            cell.cellCheck.isHidden = false
         } else {
-            cell.accessoryType = .none
+            cell.cellCheck.isHidden = true
         }
         
     }
     
-    func configureText(for cell: UITableViewCell, withItem item: ChecklistItem) {
-        cell.textLabel?.text = item.text
+    func configureText(for cell: ChecklistItemCell, withItem item: ChecklistItem) {
+        cell.cellLabel.text = item.text
     }
 
     @IBAction func addDummyTodo(_ sender: UIBarButtonItem) {
@@ -74,6 +77,16 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
             let destinationVC = firstDest.topViewController as! AddItemViewController
             destinationVC.delegate = self
         }
+        
+        if segue.identifier == "editItem" {
+            let firstDest = segue.destination as! UINavigationController
+            let destinationVC = firstDest.topViewController as! AddItemViewController
+            guard let id = tableView.indexPath(for: sender as! ChecklistItemCell) else {
+                return
+            }
+            destinationVC.itemToEdit = items[id.row]
+            destinationVC.delegate = self
+        }
     }
     
     //MARK:- Delegate funcs
@@ -87,7 +100,15 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         let indexPath = IndexPath(row: items.count, section: 0)
         items.append(item)
         tableView.insertRows(at: [indexPath], with: UITableView.RowAnimation.fade)
-        
     }
+    
+    func addItemViewController(_ controller: AddItemViewController, didFinishEditingItem item: ChecklistItem) {
+        dismiss(animated: true)
+        if items.index(where:{ $0 === item }) {
+        let indexPath = IndexPath(row: 1, section: 0)
+        items.append(item)
+        tableView.insertRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+    }
+    
 }
 
