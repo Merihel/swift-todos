@@ -19,6 +19,7 @@ class AddItemViewController: UITableViewController {
         
         if (itemToEdit != nil) {
             itemField.text = itemToEdit?.text
+            self.title = "Edit Item"
         }
     }
     
@@ -26,10 +27,11 @@ class AddItemViewController: UITableViewController {
     
     @IBAction func done() {
         print(itemField.text)
-        if (itemToEdit != nil) {
-            delegate?.addItemViewController(self, didFinishAddingItem: ChecklistItem(textV: itemField.text!))
+        if let itemToEdit = itemToEdit {
+            itemToEdit.text = itemField.text!
+            delegate?.addItemViewController(self, didFinishEditingItem: itemToEdit)
         } else {
-            delegate?.addItemViewController(self, didFinishEditingItem: ChecklistItem(textV: itemField.text!))
+            delegate?.addItemViewController(self, didFinishAddingItem: ChecklistItem(textV: itemField.text!))
         }
     }
     

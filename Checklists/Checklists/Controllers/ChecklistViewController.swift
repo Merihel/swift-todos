@@ -104,11 +104,12 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     
     func addItemViewController(_ controller: AddItemViewController, didFinishEditingItem item: ChecklistItem) {
         dismiss(animated: true)
-        if items.index(where:{ $0 === item }) {
-        let indexPath = IndexPath(row: 1, section: 0)
-        items.append(item)
-        tableView.insertRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+        print("Testing item: " + item.text)
+        if let row = items.index(where: {$0 === item}) {
+            print("Item found at: \(row)")
+            let indexPath = IndexPath(row: row, section: 0)
+            tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+        }
     }
     
 }
-
