@@ -47,8 +47,8 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5kj-s4-zUp">
-                                            <rect key="frame" x="39" y="5" width="55" height="33.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5kj-s4-zUp">
+                                            <rect key="frame" x="39" y="5" width="260" height="33.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -56,7 +56,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="4IR-3H-lqj" firstAttribute="leading" secondItem="HiA-JZ-EGe" secondAttribute="leading" constant="10" id="2VU-Iw-giX"/>
-                                        <constraint firstAttribute="trailing" secondItem="5kj-s4-zUp" secondAttribute="trailing" constant="213" id="SSc-c0-sDn"/>
+                                        <constraint firstAttribute="trailing" secondItem="5kj-s4-zUp" secondAttribute="trailing" constant="8" id="SSc-c0-sDn"/>
                                         <constraint firstAttribute="bottom" secondItem="5kj-s4-zUp" secondAttribute="bottom" constant="5" id="VJT-D1-c4g"/>
                                         <constraint firstItem="5kj-s4-zUp" firstAttribute="leading" secondItem="4IR-3H-lqj" secondAttribute="trailing" constant="8" id="a85-bt-Hsp"/>
                                         <constraint firstItem="4IR-3H-lqj" firstAttribute="centerY" secondItem="HiA-JZ-EGe" secondAttribute="centerY" id="uXW-Xd-NdM"/>
@@ -108,7 +108,7 @@
         <!--Add Item-->
         <scene sceneID="Ck8-WC-lPO">
             <objects>
-                <tableViewController id="gBa-pa-9m5" customClass="AddItemViewController" customModule="Checklists" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="gBa-pa-9m5" customClass="ItemDetailViewController" customModule="Checklists" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="b8e-gK-tCp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChecklistViewController: UITableViewController, AddItemViewControllerDelegate {
+class ChecklistViewController: UITableViewController, ItemDetailViewControllerDelegate {
 
     var items: [ChecklistItem] = []
     
@@ -74,13 +74,13 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "addItem" {
             let firstDest = segue.destination as! UINavigationController
-            let destinationVC = firstDest.topViewController as! AddItemViewController
+            let destinationVC = firstDest.topViewController as! ItemDetailViewController
             destinationVC.delegate = self
         }
         
         if segue.identifier == "editItem" {
             let firstDest = segue.destination as! UINavigationController
-            let destinationVC = firstDest.topViewController as! AddItemViewController
+            let destinationVC = firstDest.topViewController as! ItemDetailViewController
             guard let id = tableView.indexPath(for: sender as! ChecklistItemCell) else {
                 return
             }
@@ -91,18 +91,18 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     
     //MARK:- Delegate funcs
     
-    func addItemViewControllerDidCancel(_ controller: AddItemViewController) {
+    func itemDetailViewControllerDidCancel(_ controller: ItemDetailViewController) {
         dismiss(animated: true)
     }
     
-    func addItemViewController(_ controller: AddItemViewController, didFinishAddingItem item: ChecklistItem) {
+    func itemDetailViewController(_ controller: ItemDetailViewController, didFinishAddingItem item: ChecklistItem) {
         dismiss(animated: true)
         let indexPath = IndexPath(row: items.count, section: 0)
         items.append(item)
         tableView.insertRows(at: [indexPath], with: UITableView.RowAnimation.fade)
     }
     
-    func addItemViewController(_ controller: AddItemViewController, didFinishEditingItem item: ChecklistItem) {
+    func itemDetailViewController(_ controller: ItemDetailViewController, didFinishEditingItem item: ChecklistItem) {
         dismiss(animated: true)
         print("Testing item: " + item.text)
         if let row = items.index(where: {$0 === item}) {
