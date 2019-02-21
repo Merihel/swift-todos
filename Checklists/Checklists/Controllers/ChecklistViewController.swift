@@ -11,15 +11,18 @@ import UIKit
 class ChecklistViewController: UITableViewController, ItemDetailViewControllerDelegate {
 
     var items: [ChecklistItem] = []
+    static var documentDirectory: URL {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    }
+    static var dataFileUrl: URL {
+        return ChecklistViewController.documentDirectory.appendingPathComponent("checklist").appendingPathExtension("json")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        items.append(ChecklistItem(textV: "Test1", checkedV: true))
-        items.append(ChecklistItem(textV: "Test2"))
-        items.append(ChecklistItem(textV: "Test3", checkedV: false))
-        items.append(ChecklistItem(textV: "Test4", checkedV: true))
+        print("DocumentDirectory: \(ChecklistViewController.documentDirectory)")
+        print("DocumentDirectory: \(ChecklistViewController.dataFileUrl)")
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -42,25 +45,55 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         tableView.deselectRow(at: indexPath, animated: true)
         items[indexPath.row].toggleChecked()
         tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+        saveChecklistItems()
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         items.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+        saveChecklistItems()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        loadChecklistItems()
     }
     
     func configureCheckmark(for cell: ChecklistItemCell, withItem item: ChecklistItem) {
-        
         if (item.checked) {
             cell.cellCheck.isHidden = false
         } else {
             cell.cellCheck.isHidden = true
         }
-        
     }
     
     func configureText(for cell: ChecklistItemCell, withItem item: ChecklistItem) {
         cell.cellLabel.text = item.text
+    }
+    
+    //MARK:- JSON Save and load
+    func saveChecklistItems() {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        let newData = try? encoder.encode(items)
+        print(String(data: newData!, encoding: .utf8)!)
+        try? newData?.write(to: ChecklistViewController.dataFileUrl)
+    }
+    
+    func loadChecklistItems() {
+        let decoder = JSONDecoder()
+        let data = try FileManager.default.contents(atPath: ChecklistViewController.dataFileUrl.path)
+        print(String(data: data!, encoding: .utf8)!)
+        if (data != nil) {
+            let items = try? decoder.decode([ChecklistItem].self, from: data!)
+            if items != nil {
+                self.items = items!
+            } else {
+                print("Error: Can't decode Data to items array")
+            }
+        } else {
+            print("Error: Can't read file to get Data")
+        }
     }
 
     @IBAction func addDummyTodo(_ sender: UIBarButtonItem) {
@@ -100,6 +133,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         let indexPath = IndexPath(row: items.count, section: 0)
         items.append(item)
         tableView.insertRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+        saveChecklistItems()
     }
     
     func itemDetailViewController(_ controller: ItemDetailViewController, didFinishEditingItem item: ChecklistItem) {
@@ -110,6 +144,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
             let indexPath = IndexPath(row: row, section: 0)
             tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.fade)
         }
+        saveChecklistItems()
     }
     
 }
