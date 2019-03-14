@@ -8,8 +8,10 @@
 
 import UIKit
 
-class ChecklistViewController: UITableViewController, ItemDetailViewControllerDelegate {
+class ChecklistViewController: UITableViewController {
 
+    var delegate: CheckListViewControllerDelegate?
+    var list: Checklist!
     var items: [ChecklistItem] = []
     static var documentDirectory: URL {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -23,6 +25,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         // Do any additional setup after loading the view, typically from a nib.
         print("DocumentDirectory: \(ChecklistViewController.documentDirectory)")
         print("DocumentDirectory: \(ChecklistViewController.dataFileUrl)")
+        navigationItem.title = list.name
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -102,6 +105,10 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         tableView.insertRows(at: [indexPath], with: UITableView.RowAnimation.fade)
     }
     
+    @IBAction func cancel(_ sender: Any) {
+        delegate?.checkListViewControllerDidCancel(self)
+    }
+    
     //MARK:- Prepare for segue AddItemViewController
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
@@ -122,7 +129,15 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         }
     }
     
-    //MARK:- Delegate funcs
+}
+
+protocol CheckListViewControllerDelegate : class {
+    func checkListViewControllerDidCancel(_ controller: ChecklistViewController)
+}
+
+//MARK:- EXT: ItemDetailDelegate funcs
+extension ChecklistViewController : ItemDetailViewControllerDelegate {
+    
     
     func itemDetailViewControllerDidCancel(_ controller: ItemDetailViewController) {
         dismiss(animated: true)
@@ -146,5 +161,6 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         }
         saveChecklistItems()
     }
-    
 }
+
+
