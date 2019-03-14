@@ -16,4 +16,8 @@ class Checklist: Codable {
         name = nameV
         items = itemsV
     }
+    
+    var uncheckedItemsCount: Int {
+        return items.filter({!$0.checked}).count
+    }
 }

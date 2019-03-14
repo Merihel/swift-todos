@@ -14,6 +14,11 @@ class ChecklistViewController: UITableViewController {
     var list: Checklist!
     //var items: [ChecklistItem] = [ChecklistItem(textV: "DummyItem1", checkedV: true), ChecklistItem(textV: "DummyItem2", checkedV: false)]
     
+    override func viewWillAppear(_ animated: Bool) {
+        DataModel.instance.sortChecklists()
+        tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

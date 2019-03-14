@@ -14,6 +14,11 @@ class AllListViewController: UITableViewController, CheckListViewControllerDeleg
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        DataModel.instance.sortChecklists()
+        tableView.reloadData()
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         DataModel.instance.loadChecklistItems()
@@ -31,8 +36,19 @@ class AllListViewController: UITableViewController, CheckListViewControllerDeleg
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistsItem", for: indexPath)
-        configureText(for: cell, withItem: DataModel.instance.lists[indexPath.row])
+        let item = DataModel.instance.lists[indexPath.row]
+        configureText(for: cell, withItem: item)
 
+        if item.items.isEmpty {
+            cell.detailTextLabel?.text = "(No Item)"
+        } else {
+            switch (item.items.count, item.uncheckedItemsCount) {
+                case (0, _): cell.detailTextLabel?.text = "(No Item)"
+                case (_, 0): cell.detailTextLabel?.text = "All Done!"
+                case (_, let nbr): cell.detailTextLabel?.text = "\(nbr) restants"
+            }
+        }
+        
         return cell
     }
     
@@ -62,32 +78,6 @@ class AllListViewController: UITableViewController, CheckListViewControllerDeleg
             destinationVC.delegate = self
         }
     }
-    
-    //MARK:- JSON Save and load
-    /*
-    func saveChecklistItems() {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        let newData = try? encoder.encode(lists)
-        print(String(data: newData!, encoding: .utf8)!)
-        try? newData?.write(to: ChecklistViewController.dataFileUrl)
-    }
-    
-    func loadChecklistItems() {
-        let decoder = JSONDecoder()
-        let data = try FileManager.default.contents(atPath: ChecklistViewController.dataFileUrl.path)
-        print(String(data: data!, encoding: .utf8)!)
-        if (data != nil) {
-            let items = try? decoder.decode([Checklist].self, from: data!)
-            if items != nil {
-                self.lists = items!
-            } else {
-                print("Error: Can't decode Data to items array")
-            }
-        } else {
-            print("Error: Can't read file to get Data")
-        }
-    } */
     
     //MARK - Delegates funcs
     func checkListViewControllerDidCancel(_ controller: ChecklistViewController) {

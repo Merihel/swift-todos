@@ -61,4 +61,17 @@ class DataModel {
         }
     }
     
+    func sortChecklists() {
+        var ans: [Checklist] = self.lists
+        for (index, item) in self.lists.enumerated() {
+            ans[index].items = item.items.sorted {
+                (s1, s2) -> Bool in return s1.text.localizedStandardCompare(s2.text) == .orderedAscending
+            }
+        }
+        ans = ans.sorted {
+            (s1, s2) -> Bool in return s1.name.localizedStandardCompare(s2.name) == .orderedAscending
+        }
+        self.lists = ans
+    }
+    
 }
