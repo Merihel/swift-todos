@@ -22,6 +22,7 @@ class AllListViewController: UITableViewController, CheckListViewControllerDeleg
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         DataModel.instance.loadChecklistItems()
+        
     }
     
     // MARK: - Table view data source

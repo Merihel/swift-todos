@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		08247B1E221EDA5D0090193E /* AllListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08247B1D221EDA5D0090193E /* AllListViewController.swift */; };
 		08247B20221EE10B0090193E /* Checklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08247B1F221EE10B0090193E /* Checklist.swift */; };
+		082B0B592243A53000466FEF /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082B0B582243A53000466FEF /* UserNotifications.framework */; };
 		08D08CD1221557FD00A9BD7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D08CD0221557FD00A9BD7C /* AppDelegate.swift */; };
 		08D08CD3221557FD00A9BD7C /* ChecklistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D08CD2221557FD00A9BD7C /* ChecklistViewController.swift */; };
 		08D08CD6221557FD00A9BD7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08D08CD4221557FD00A9BD7C /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		08247B1D221EDA5D0090193E /* AllListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllListViewController.swift; sourceTree = "<group>"; };
 		08247B1F221EE10B0090193E /* Checklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklist.swift; sourceTree = "<group>"; };
+		082B0B582243A53000466FEF /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		08D08CCD221557FD00A9BD7C /* Checklists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Checklists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08D08CD0221557FD00A9BD7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08D08CD2221557FD00A9BD7C /* ChecklistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistViewController.swift; sourceTree = "<group>"; };
@@ -45,17 +47,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				082B0B592243A53000466FEF /* UserNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		082B0B572243A53000466FEF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				082B0B582243A53000466FEF /* UserNotifications.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		08D08CC4221557FD00A9BD7C = {
 			isa = PBXGroup;
 			children = (
 				08D08CCF221557FD00A9BD7C /* Checklists */,
 				08D08CCE221557FD00A9BD7C /* Products */,
+				082B0B572243A53000466FEF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

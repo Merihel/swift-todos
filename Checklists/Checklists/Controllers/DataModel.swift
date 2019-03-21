@@ -25,6 +25,12 @@ class DataModel {
             name: UIApplication.didEnterBackgroundNotification,
             object: nil)
         
+        UserDefaults.standard.register(defaults: ["firstLaunch":true])
+        
+        if (UserDefaults.standard.bool(forKey: "firstLaunch")) {
+            lists.append(Checklist(nameV: "My first list", itemsV: [ChecklistItem(textV: "Edit your first item"), ChecklistItem(textV: "Swipe me to delete")], iconV: IconAsset.Folder))
+            UserDefaults.standard.set(false, forKey: "firstLaunch")
+        }
     }
     
     var documentDirectory: URL {

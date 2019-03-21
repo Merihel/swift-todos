@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+        
+        center.requestAuthorization(options: [.alert, .sound])
+        { (granted, error) in
+            if !granted {
+                print("Push not authorized")
+            }
+        }
+        
+        center.getNotificationSettings { (settings) in
+            
+            print("Push authorized")
+            let content = UNMutableNotificationContent()
+            content.title = "Bienvenue !"
+            content.body = "Ajoutez vos premières notifs dès que possible !"
+            
+            let inTenSeconds = Date(timeIntervalSinceNow: 10)
+            let dateComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: inTenSeconds)
+            print("date : \(dateComponents)")
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+            let request = UNNotificationRequest(
+                identifier: "10.second.message",
+                content: content,
+                trigger: trigger
+            )
+            
+            center.add(request, withCompletionHandler: nil)
+        }
         return true
     }
 
@@ -44,3 +75,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate : UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .badge, .sound])
+    }
+}
