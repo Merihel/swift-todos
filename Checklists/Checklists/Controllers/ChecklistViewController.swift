@@ -67,6 +67,7 @@ class ChecklistViewController: UITableViewController {
         } else {
             cell.cellCheck.isHidden = true
         }
+        cell.cellCheck.textColor = view.tintColor
     }
     
     func configureText(for cell: ChecklistItemCell, withItem item: ChecklistItem) {

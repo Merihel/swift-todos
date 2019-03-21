@@ -48,7 +48,7 @@ class DataModel {
     func loadChecklistItems() {
         let decoder = JSONDecoder()
         let data = try FileManager.default.contents(atPath: self.dataFileUrl.path)
-        print(String(data: data!, encoding: .utf8)!)
+        //print(String(data: data!, encoding: .utf8)!)
         if (data != nil) {
             let items = try? decoder.decode([Checklist].self, from: data!)
             if items != nil {

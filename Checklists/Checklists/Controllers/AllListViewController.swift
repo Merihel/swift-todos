@@ -38,6 +38,7 @@ class AllListViewController: UITableViewController, CheckListViewControllerDeleg
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistsItem", for: indexPath)
         let item = DataModel.instance.lists[indexPath.row]
         configureText(for: cell, withItem: item)
+        configureIcon(for: cell, withItem: item)
 
         if item.items.isEmpty {
             cell.detailTextLabel?.text = "(No Item)"
@@ -54,6 +55,10 @@ class AllListViewController: UITableViewController, CheckListViewControllerDeleg
     
     func configureText(for cell: UITableViewCell, withItem item: Checklist) {
         cell.textLabel?.text = item.name
+    }
+    
+    func configureIcon(for cell: UITableViewCell, withItem item: Checklist) {
+        cell.imageView?.image = item.icon.image
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){

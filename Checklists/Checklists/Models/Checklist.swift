@@ -11,10 +11,12 @@ import Foundation
 class Checklist: Codable {
     var name: String
     var items: [ChecklistItem]
+    var icon: IconAsset
     
-    init(nameV: String, itemsV: [ChecklistItem] = []) {
+    init(nameV: String, itemsV: [ChecklistItem] = [], iconV: IconAsset = IconAsset.NoIcon) {
         name = nameV
         items = itemsV
+        icon = iconV
     }
     
     var uncheckedItemsCount: Int {
